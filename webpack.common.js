@@ -16,7 +16,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   plugins: [
-    new CopyPlugin([{ from: "src/parsons", to: "parsons" }]),
+    new CopyPlugin({ patterns: [{ from: "src/parsons", to: "parsons" }] }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
@@ -26,8 +26,11 @@ module.exports = {
     }),
   ],
   output: {
-    library: "ParsonsUI",
-    libraryTarget: "umd",
+    library: {
+      name: "ParsonsUI",
+      type: "umd",
+    },
+
     filename: "parsonsUI.js",
     auxiliaryComment: "ParsonsUI",
   },

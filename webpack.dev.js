@@ -1,14 +1,16 @@
-const merge = require('webpack-merge');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const { merge } = require("webpack-merge");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const common = require('./webpack.common');
+const common = require("./webpack.common");
 
 module.exports = merge(common, {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: "development",
+  devtool: "inline-source-map",
   devServer: {
-    contentBase: './dist',
-    hot: true
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
   },
   module: {
     rules: [
@@ -17,21 +19,18 @@ module.exports = merge(common, {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: true
-            },
           },
-          'css-loader',
-          'postcss-loader',
-          'less-loader'
+          "css-loader",
+          "postcss-loader",
+          "less-loader",
         ],
-      }
+      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-    })
-  ]
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+    }),
+  ],
 });

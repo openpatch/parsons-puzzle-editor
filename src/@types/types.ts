@@ -3,11 +3,11 @@ export interface Dictionary<T> {
 }
 
 export const enum ParsonsGrader {
-  LineBased= 'ParsonsWidget._graders.LineBasedGrader',
-  VariableCheck = 'ParsonsWidget._graders.VariableCheckGrader',
-  UnitTest = 'ParsonsWidget._graders.UnitTestGrader',
-  LanguageTranslation = 'ParsonsWidget._graders.LanguageTranslationGrader',
-  Turtle = 'ParsonsWidget._graders.TurtleGrader'
+  LineBased = "ParsonsWidget._graders.LineBasedGrader",
+  VariableCheck = "ParsonsWidget._graders.VariableCheckGrader",
+  UnitTest = "ParsonsWidget._graders.UnitTestGrader",
+  LanguageTranslation = "ParsonsWidget._graders.LanguageTranslationGrader",
+  Turtle = "ParsonsWidget._graders.TurtleGrader",
 }
 
 export interface VariableTest {
@@ -22,7 +22,7 @@ export interface VariableTest {
 }
 
 export interface ToggleTypeHandler {
-  'boolean'?: string[];
+  boolean?: string[];
   compop?: string[];
   mathop?: string[];
   boolop?: string[];
@@ -39,7 +39,7 @@ export interface ParsonsOptions {
   executable_code?: string;
   programmingLang?: string;
   unittests?: string;
-  toggleTypeHandlers? : ToggleTypeHandler[];
+  toggleTypeHandlers?: ToggleTypeHandler[];
   turtleModelCode?: string;
   feedback_cb?: boolean | (() => void); // eslint-disable-line  @typescript-eslint/camelcase
   lang?: string;
@@ -47,6 +47,11 @@ export interface ParsonsOptions {
   exec_limit?: number;
   unittest_code_prepend?: string;
   show_feedback?: boolean;
+}
+
+export interface State {
+  options: ParsonsOptions;
+  initial: string;
 }
 
 export interface ParsonsSettings {

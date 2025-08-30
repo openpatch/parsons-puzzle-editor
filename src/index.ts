@@ -1,7 +1,11 @@
-import { ParsonsUI } from './lib/ParsonsUI'
-import { ParsonsSettings } from './@types/types'
-import './style.less'
+import { ParsonsUI } from "./lib/ParsonsUI";
+import { ParsonsSettings } from "./@types/types";
+import { deserializeState, serializeState } from "./lib/serde";
+import "./style.less";
 
-export const build = (selector: string, settings: ParsonsSettings): ParsonsUI => new ParsonsUI(selector, settings)
+export const build = (selector: string, settings: ParsonsSettings): ParsonsUI =>
+  new ParsonsUI(selector, settings);
 
-export default build
+export { serializeState, deserializeState };
+
+export default build;

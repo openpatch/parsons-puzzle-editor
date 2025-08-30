@@ -15,30 +15,8 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #F7F9FC;
       font-family: open-sans, arial, sans-serif;
       color: #414852;
-    }
-
-    .header {
-      height: 75px;
-      padding: 0 90px;
-      border-bottom: 1px solid #EAECF2;
-      display: flex;
-      align-items: center;
-      background-color: #FFF;
-    }
-
-    .header .btn:not(:last-child) {
-      margin-right: 10px;
-    }
-
-    .leftHeaderButtons {
-      flex: 1 0 auto;
-    }
-
-    .rightHeaderButtons .btn {
-      text-decoration: none;
     }
 
     .btn {
@@ -149,60 +127,6 @@
       font-size: 18px;
     }
 
-    .prefixContainer {
-      display: flex;
-      margin-bottom: 20px;
-    }
-
-    .prefixContainer .prefixInput {
-      padding: 6px 0;
-      margin-right: 10px;
-      width: 50%;
-    }
-
-    .parsonsSettingsOverlay:not(.export) .codeContainer,
-    .parsonsSettingsOverlay.export:not(.parameters) .initialContainer,
-    .parsonsSettingsOverlay.export:not(.parameters) .optionsContainer {
-      display: none;
-    }
-
-    .CodeMirror {
-      border: 1px solid #EAECF2;
-    }
-
-    .CodeMirror-empty.CodeMirror-focused {
-      outline: none;
-    }
-
-    .CodeMirror pre.CodeMirror-placeholder {
-      color: #999;
-    }
-
-    .initialContainer {
-      padding-right: 20px;
-    }
-
-    .containerTitle,
-    .parsonUIContainerTitle {
-      margin: 10px 0 15px 60px;
-    }
-
-    .parsonUIContainerTitle {
-      display: inline-block;
-    }
-
-    .tryBtn {
-      float: right;
-      margin-top: 6px;
-    }
-
-    .parsonsContainer {
-      display: flex;
-      flex-direction: column;
-      padding-right: 20px;
-      width: 60%;
-    }
-
     .parsonsPuzzleWidgetContainer {
       border: 1px solid #EAECF2;
       background-color: #FFF;
@@ -283,25 +207,6 @@
     </div>
   </div>
   <script type="text/javascript">
-    var PARSON_CODE_HTML = '<div id="###parsons_prefix###sortableTrash" class="sortable-code"></div> \n\
-<div id="###parsons_prefix###sortable" class="sortable-code"></div> \n\
-<div style="clear:both;"></div> \n\
-<p> \n\
-    <input id="###parsons_prefix###feedbackLink" value="Get Feedback" type="button" /> \n\
-    <input id="###parsons_prefix###newInstanceLink" value="Reset Problem" type="button" /> \n\
-</p> \n\
-<script type="text/javascript"> \n\
-(function(){';
-    var PARSON_CODE_EVENTS = '  $("####parsons_prefix###newInstanceLink").click(function(event){ \n\
-      event.preventDefault(); \n\
-      parsonsPuzzle.shuffleLines(); \n\
-  }); \n\
-  $("####parsons_prefix###feedbackLink").click(function(event){ \n\
-      event.preventDefault(); \n\
-      parsonsPuzzle.getFeedback(); \n\
-  }); \n\
-})(); \n\
-<\/script>';
     function stopEvent(ev) {ev && ev.stopPropagation();}
     var parsons = null;
     var parsonsPuzzle = null;
@@ -315,65 +220,6 @@
       'ParsonsWidget._graders.LanguageTranslationGrader',
       'ParsonsWidget._graders.TurtleGrader'
     ];
-    function addQuotesToGrader(jsonString) {
-      var resultString = jsonString;
-      for (var i = 0; i < graders.length; i++) {
-        resultString = jsonString.replace(graders[i], '"' + graders[i] + '"');
-        if (resultString !== jsonString) {
-          break;
-        }
-      }
-      return resultString;
-    }
-    function removeGraderQuotes(jsonString) {
-      var resultString = jsonString;
-      for (var i = 0; i < graders.length; i++) {
-        resultString = jsonString.replace('"' + graders[i] + '"', graders[i]);
-        if (resultString !== jsonString) {
-          break;
-        }
-      }
-      return resultString;
-    }
-
-    function openModal(isImport) {
-      document.getElementById('overlayTitle').innerHTML = isImport ? 'Import' : 'Export';
-      var actionTypeCls = isImport ? 'import' : 'export';
-      document.getElementById('blockOverlay').className = '';
-      document.getElementById('parsonsSettingsOverlay').className = 'parsonsSettingsOverlay is-opened ' + actionTypeCls;
-    }
-    function closeModal() {
-      document.getElementById('parsonsSettingsOverlay').className = 'parsonsSettingsOverlay';
-      document.getElementById('blockOverlay').className = 'hide';
-    }
-    function getCode() {
-      var initial = initialEditor.getValue();
-      var options = optionsEditor.getValue();
-
-      var prefix = $.trim($("#prefix").val());
-      prefix = prefix.length > 0 ? prefix + '-' : '';
-      var html = PARSON_CODE_HTML.replace(/###parsons_prefix###/g, prefix);
-      var events = PARSON_CODE_EVENTS.replace(/###parsons_prefix###/g, prefix);
-      options = options.replace('"sortableId": "sortable"', '"sortableId": "' + prefix + 'sortable"');
-      options = options.replace('"trashId": "sortableTrash"', '"trashId": "' + prefix + 'sortableTrash"');
-      var initialJs = [];
-      var lines = initial.replace(/"/g, '\\"').split('\n');
-      for (var i = 0; i < lines.length; i++) {
-        var line = '\"' + lines[i];
-        line += i < lines.length - 1 ? '\\n' + '\" +' : '\"';
-        initialJs.push(i !== 0 ? '    ' + line : line);
-      }
-      initialJs = '  var initial = ' + initialJs.join('\n') + ';';
-      options = options.replace(/\n}$/, '\n  }');
-      return [
-        html,
-        initialJs,
-        '  var parsonsPuzzle = new ParsonsWidget(' + options + ');',
-        '  parsonsPuzzle.init(initial);',
-        '  parsonsPuzzle.shuffleLines();',
-        events
-      ].join('\n');
-    }
 
     function clearCanvas(id) {
       var canvas = document.getElementById(id);
